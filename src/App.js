@@ -13,6 +13,8 @@ function App() {
     fetch(SHEET_URL)
       .then((res) => res.text())
       .then((html) => {
+        // Debug: print fetched HTML to console
+        console.log('Fetched Google Sheets HTML:', html);
         // Try to extract the Google Sheets table (class 'waffle') or fallback to any <table>
         const parser = new window.DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
