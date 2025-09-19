@@ -20,6 +20,7 @@ function App() {
   const [submitMsg, setSubmitMsg] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showRows, setShowRows] = useState(10);
 
   // GAPI init
   useEffect(() => {
@@ -123,7 +124,7 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              {tableData.slice(1).map((row, i) => (
+              {tableData.slice(1, showRows + 1).map((row, i) => (
                 <tr key={i} style={{ background: i % 2 === 0 ? '#fafbfc' : '#fff' }}>
                   {row.map((cell, j) => (
                     <td key={j} style={{ border: '1px solid #eee', padding: 10 }}>{cell}</td>
@@ -132,6 +133,11 @@ function App() {
               ))}
             </tbody>
           </table>
+          {tableData.length - 1 > showRows && (
+            <button onClick={() => setShowRows(showRows + 10)} style={{ marginTop: 16, padding: '8px 24px', borderRadius: 4, background: '#1976d2', color: '#fff', border: 'none', fontWeight: 'bold', fontSize: 16, cursor: 'pointer' }}>
+              Tampilkan 10 data lagi
+            </button>
+          )}
         </div>
       )}
       {/* Add Row Form */}
