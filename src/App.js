@@ -34,12 +34,28 @@ function App() {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {!loading && !error && tableData.length > 0 && (
         <div style={{ overflowX: 'auto', background: '#fff', borderRadius: 8, boxShadow: '0 2px 8px #eee', padding: 16 }}>
-          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 16 }}>
+            <thead>
+              <tr>
+                {tableData[0].map((cell, j) => (
+                  <th key={j} style={{
+                    border: '1px solid #bbb',
+                    padding: 10,
+                    background: '#f5f5f5',
+                    fontWeight: 'bold',
+                    textAlign: 'left',
+                    position: 'sticky',
+                    top: 0,
+                    zIndex: 1
+                  }}>{cell}</th>
+                ))}
+              </tr>
+            </thead>
             <tbody>
-              {tableData.map((row, i) => (
-                <tr key={i}>
+              {tableData.slice(1).map((row, i) => (
+                <tr key={i} style={{ background: i % 2 === 0 ? '#fafbfc' : '#fff' }}>
                   {row.map((cell, j) => (
-                    <td key={j} style={{ border: '1px solid #ddd', padding: 8 }}>{cell}</td>
+                    <td key={j} style={{ border: '1px solid #eee', padding: 10 }}>{cell}</td>
                   ))}
                 </tr>
               ))}
