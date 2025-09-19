@@ -13,14 +13,17 @@ function App() {
     fetch(SHEET_URL)
       .then((res) => res.text())
       .then((html) => {
-        // Extract the first table from the HTML
+        // Try to extract the Google Sheets table (class 'waffle') or fallback to any <table>
         const parser = new window.DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
-        const table = doc.querySelector('table');
+        let table = doc.querySelector('table.waffle');
+        if (!table) {
+          table = doc.querySelector('table');
+        }
         if (table) {
           setTableHtml(table.outerHTML);
         } else {
-          setError('No table found in the sheet.');
+          setError('No table found in the sheet. Make sure the sheet is published to the web.');
         }
         setLoading(false);
       })
