@@ -85,21 +85,7 @@ function App() {
   return (
     <div className="App">
       <h1>Google Sheets Data Viewer</h1>
-      <div style={{ marginBottom: 16 }}>
-        {isSignedIn ? (
-          <>
-            {user && (
-              <span style={{ marginRight: 12 }}>
-                <img src={user.imageUrl} alt="avatar" style={{ width: 28, height: 28, borderRadius: '50%', verticalAlign: 'middle', marginRight: 8 }} />
-                Login sebagai: <b>{user.email}</b>
-              </span>
-            )}
-            <button onClick={handleLogout} style={{ padding: '6px 16px', borderRadius: 4, background: '#e53935', color: '#fff', border: 'none', cursor: 'pointer' }}>Logout</button>
-          </>
-        ) : (
-          <button onClick={handleLogin} style={{ padding: '6px 16px', borderRadius: 4, background: '#1976d2', color: '#fff', border: 'none', cursor: 'pointer' }}>Login dengan Google</button>
-        )}
-      </div>
+      {/* Google Login Button and user info moved below */}
       <p style={{ fontSize: '0.9em' }}>
         Data source: <a href={SHEET_URL} target="_blank" rel="noopener noreferrer">Google Sheets</a>
       </p>
@@ -196,6 +182,21 @@ function App() {
           {submitMsg && <div style={{ marginTop: 12, color: '#1976d2', fontSize: 14 }}>{submitMsg}</div>}
         </form>
       )}
+      <div style={{ margin: '32px 0' }}>
+        {isSignedIn ? (
+          <>
+            {user && (
+              <span style={{ marginRight: 12 }}>
+                <img src={user.imageUrl} alt="avatar" style={{ width: 28, height: 28, borderRadius: '50%', verticalAlign: 'middle', marginRight: 8 }} />
+                Login sebagai: <b>{user.email}</b>
+              </span>
+            )}
+            <button onClick={handleLogout} style={{ padding: '6px 16px', borderRadius: 4, background: '#e53935', color: '#fff', border: 'none', cursor: 'pointer' }}>Logout</button>
+          </>
+        ) : (
+          <button onClick={handleLogin} style={{ padding: '8px 24px', borderRadius: 4, background: '#1976d2', color: '#fff', border: 'none', fontWeight: 'bold', fontSize: 16, cursor: 'pointer' }}>Login dengan Google</button>
+        )}
+      </div>
       <p style={{ marginTop: 32, fontSize: '0.8em', color: '#888' }}>
         To use a different sheet, edit <code>SHEET_URL</code> in <code>src/App.js</code>.
       </p>
