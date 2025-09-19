@@ -15,9 +15,11 @@ function App() {
       .then((html) => {
         // Debug: print fetched HTML to console
         console.log('Fetched Google Sheets HTML:', html);
-        // Try to extract the Google Sheets table (class 'waffle') or fallback to any <table>
+        // Try to extract all tables for debugging
         const parser = new window.DOMParser();
         const doc = parser.parseFromString(html, 'text/html');
+        const allTables = doc.querySelectorAll('table');
+        console.log('All tables found:', allTables);
         let table = doc.querySelector('table.waffle');
         if (!table) {
           table = doc.querySelector('table');
