@@ -30,12 +30,26 @@ function App() {
         discoveryDocs: DISCOVERY_DOCS,
         scope: SCOPES,
       }).then(() => {
-        // Listen for sign-in state changes.
-        gapi.auth2.getAuthInstance().isSignedIn.listen(setIsSignedIn);
-        setIsSignedIn(gapi.auth2.getAuthInstance().isSignedIn.get());
-        if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
-          setUser(gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile());
+        const auth = gapi.auth2.getAuthInstance();
+        function updateSigninStatus(isSignedIn) {
+          setIsSignedIn(isSignedIn);
+          if (isSignedIn) {
+            const profile = auth.currentUser.get().getBasicProfile();
+            setUser({
+              name: profile.getName(),
+              email: profile.getEmail(),
+              imageUrl: profile.getImageUrl(),
+            });
+          } else {
+            setUser(null);
+          }
         }
+        // Initial status
+        updateSigninStatus(auth.isSignedIn.get());
+        // Listen for sign-in state changes.
+        auth.isSignedIn.listen(updateSigninStatus);
+      }).catch((err) => {
+        setError('GAPI init error: ' + err.error);
       });
     }
     gapi.load('client:auth2', start);
@@ -72,7 +86,12 @@ function App() {
       <div style={{ marginBottom: 16 }}>
         {isSignedIn ? (
           <>
-            <span style={{ marginRight: 12 }}>Login sebagai: <b>{user && user.getEmail ? user.getEmail() : 'User'}</b></span>
+            {user && (
+              <span style={{ marginRight: 12 }}>
+                <img src={user.imageUrl} alt="avatar" style={{ width: 28, height: 28, borderRadius: '50%', verticalAlign: 'middle', marginRight: 8 }} />
+                Login sebagai: <b>{user.email}</b>
+              </span>
+            )}
             <button onClick={handleLogout} style={{ padding: '6px 16px', borderRadius: 4, background: '#e53935', color: '#fff', border: 'none', cursor: 'pointer' }}>Logout</button>
           </>
         ) : (
